@@ -27,7 +27,7 @@ function [czs, norm_wt, cc] = modzs(zs, ridx, varargin)
 pnames = {'clip_low_wt', 'clip_low_cc',...
           'low_thresh_wt', 'low_thresh_cc', 'metric'};
 dflts = {true, true,...
-         0.01, 0, 'wt_avg'};
+         0.01, 0, 'wt_stouffer'};
 args = parse_args(pnames, dflts, varargin{:});
 
 [~, nc] = size(zs);

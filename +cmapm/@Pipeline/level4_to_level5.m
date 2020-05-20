@@ -18,7 +18,10 @@ chip = parse_tbl(landmark_file, 'outfmt', 'record');
 zsrep.mat = clip(zsrep.mat, -10, 10);
 
 % Landmark features
-pr_id_lm = {chip(strcmp('LM', {chip.pr_type})).pr_id}';
+pr_id_lm = num2str([chip.pr_gene_id]');
+pr_id_lm = cellstr(pr_id_lm);
+%remove white spaces
+pr_id_lm = cellfun(@(s) strrep(s, ' ', ''), pr_id_lm, 'UniformOutput', false);
 [~, lm_ridx] = intersect(zsrep.rid, pr_id_lm);
 
 % column ids
@@ -44,10 +47,10 @@ end
 % Annotate ModZ matrix
 modz_ds = mkgctstruct(modz_mat, 'rid', zsrep.rid, 'cid', rep_gp);
 [~, uidx] = unique(rep_idx, 'stable');
-modz_meta = keepfield(col_meta(uidx), {'rna_well', 'pert_id',...
-                                       'pert_iname', 'pert_type',...
-                                       'cell_id','pert_idose',...
-                                       'pert_itime'});
-modz_ds = annotate_ds(modz_ds, modz_meta);
+%modz_meta = keepfield(col_meta(uidx), {'rna_well', 'pert_id',...
+%                                       'pert_iname', 'pert_type',...
+%                                       'cell_id','pert_idose',...
+%                                       'pert_itime'});
+%modz_ds = annotate_ds(modz_ds, modz_meta);
 %modz_ds = annotate_ds(modz_ds, row_meta, 'dim', 'row', 'keyfield', 'pr_id');
 end
